@@ -70,7 +70,7 @@ CREATE TABLE "Rooms"
 );
 
 -- Создание типа сardсolor для поля Color таблицы RoomCards
-CREATE TYPE "сardсolor" AS ENUM ('Red', 'Blue', 'Gray');
+CREATE TYPE "сardсolor" AS ENUM ('Red', 'Blue', 'Gray', 'Black');
 
 -- Создание таблицы RoomCards
 CREATE TABLE "RoomCards"
