@@ -1,14 +1,14 @@
--- РЎРѕР·РґР°РЅРёРµ Р‘Р” Codenames
+-- Создание БД Codenames
 CREATE DATABASE "Codenames"
     WITH
     OWNER = postgres
     ENCODING = 'UTF8';
 
 
--- РЎРѕР·РґР°РЅРёРµ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё РґР»СЏ РїРµСЂРІРёС‡РЅРѕРіРѕ РєР»СЋС‡Р° С‚Р°Р±Р»РёС†С‹ ContentTypes
+-- Создание последовательности для первичного ключа таблицы ContentTypes
 CREATE SEQUENCE content_type_id_seq;
 
--- РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ ContentTypes
+-- Создание таблицы ContentTypes
 CREATE TABLE "ContentTypes"
 (
     "ContentTypeID" bigint NOT NULL DEFAULT NEXTVAL('content_type_id_seq'),
@@ -16,10 +16,10 @@ CREATE TABLE "ContentTypes"
     CONSTRAINT content_types_pkey PRIMARY KEY ("ContentTypeID")
 );
 
--- РЎРѕР·РґР°РЅРёРµ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё РґР»СЏ РїРµСЂРІРёС‡РЅРѕРіРѕ РєР»СЋС‡Р° С‚Р°Р±Р»РёС†С‹ Contents
+-- Создание последовательности для первичного ключа таблицы Contents
 CREATE SEQUENCE content_id_seq;
 
--- РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ Contents
+-- Создание таблицы Contents
 CREATE TABLE "Contents"
 (
     "ContentID" bigint NOT NULL DEFAULT NEXTVAL('content_id_seq'),
@@ -29,10 +29,10 @@ CREATE TABLE "Contents"
     CONSTRAINT contents_fk_content_type_id FOREIGN KEY ("ContentTypeID") REFERENCES "ContentTypes"("ContentTypeID") ON DELETE CASCADE
 );
 
--- РЎРѕР·РґР°РЅРёРµ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё РґР»СЏ РїРµСЂРІРёС‡РЅРѕРіРѕ РєР»СЋС‡Р° С‚Р°Р±Р»РёС†С‹ Cards
+-- Создание последовательности для первичного ключа таблицы Cards
 CREATE SEQUENCE card_id_seq;
 
--- РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ Cards
+-- Создание таблицы Cards
 CREATE TABLE "Cards"
 (
     "CardID" bigint NOT NULL DEFAULT NEXTVAL('card_id_seq'),
@@ -41,10 +41,10 @@ CREATE TABLE "Cards"
     CONSTRAINT cards_fk_content_id FOREIGN KEY ("ContentID") REFERENCES "Contents"("ContentID") ON DELETE CASCADE
 );
 
--- РЎРѕР·РґР°РЅРёРµ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё РґР»СЏ РїРµСЂРІРёС‡РЅРѕРіРѕ РєР»СЋС‡Р° С‚Р°Р±Р»РёС†С‹ Players
+-- Создание последовательности для первичного ключа таблицы Players
 CREATE SEQUENCE player_id_seq;
 
--- РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ Players
+-- Создание таблицы Players
 CREATE TABLE "Players"
 (
     "PlayerID" bigint NOT NULL DEFAULT NEXTVAL('player_id_seq'),
@@ -52,10 +52,10 @@ CREATE TABLE "Players"
     CONSTRAINT players_pkey PRIMARY KEY ("PlayerID")
 );
 
--- РЎРѕР·РґР°РЅРёРµ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё РґР»СЏ РїРµСЂРІРёС‡РЅРѕРіРѕ РєР»СЋС‡Р° С‚Р°Р±Р»РёС†С‹ Rooms
+-- Создание последовательности для первичного ключа таблицы Rooms
 CREATE SEQUENCE room_id_seq;
 
--- РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ Rooms
+-- Создание таблицы Rooms
 CREATE TABLE "Rooms"
 (
     "RoomID" bigint NOT NULL DEFAULT NEXTVAL('room_id_seq'),
@@ -69,23 +69,23 @@ CREATE TABLE "Rooms"
     CONSTRAINT rooms_pkey PRIMARY KEY ("RoomID")
 );
 
--- РЎРѕР·РґР°РЅРёРµ С‚РёРїР° СЃardСЃolor РґР»СЏ РїРѕР»СЏ Color С‚Р°Р±Р»РёС†С‹ RoomCards
-CREATE TYPE "СЃardСЃolor" AS ENUM ('Red', 'Blue', 'Gray', 'Black');
+-- Создание типа сardсolor для поля Color таблицы RoomCards
+CREATE TYPE "сardсolor" AS ENUM ('Red', 'Blue', 'Gray', 'Black');
 
--- РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ RoomCards
+-- Создание таблицы RoomCards
 CREATE TABLE "RoomCards"
 (
     "RoomID" bigint NOT NULL,
     "CardID" bigint NOT NULL,
     "CardIndex" int NOT NULL,
-    "Color" СЃardСЃolor NOT NULL,
+    "Color" сardсolor NOT NULL,
     "IsDone" boolean DEFAULT FALSE NOT NULL,
     CONSTRAINT room_cards_pkey PRIMARY KEY ("RoomID", "CardID"),
     CONSTRAINT room_cards_fk_room_id FOREIGN KEY ("RoomID") REFERENCES "Rooms"("RoomID") ON DELETE CASCADE,
     CONSTRAINT room_cards_fk_card_id FOREIGN KEY ("CardID") REFERENCES "Cards"("CardID") ON DELETE CASCADE
 );
 
--- РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ RoomPlayers
+-- Создание таблицы RoomPlayers
 CREATE TABLE "RoomPlayers"
 (
     "RoomID" bigint NOT NULL,
